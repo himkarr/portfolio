@@ -26,7 +26,7 @@ export const siteConfig = {
   location: "India",
 
   // Resume
-  resume: "/resume/Himkar_Resume.pdf",
+  resume: "/resume",
 
   // Theme
   themeColor: "#09090B",

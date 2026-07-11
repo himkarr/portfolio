@@ -9,13 +9,15 @@ import Contact from "@/components/sections/Contact";
 export default function HomePage() {
   return (
     <main className="min-h-screen bg-[#0e0e0e] text-zinc-100">
-      <Hero />
-      <Experience />
-      <Projects />
-      <About />
-      <Skills />
-      <Certifications />
-      <Contact />
+      <div className="container mx-auto max-w-3xl px-4 py-16">
+        <Hero />
+        <Experience />
+        <Projects />
+        <About />
+        <Skills />
+        <Certifications />
+        <Contact />
+      </div>
     </main>
   );
 }

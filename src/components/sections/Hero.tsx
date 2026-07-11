@@ -8,7 +8,7 @@ import X from "@/components/svgs/X";
 
 export default function Hero() {
   return (
-    <section id="hero" className="mx-auto max-w-4xl px-6 pt-6 sm:px-10">
+    <section id="hero">
       <header className="flex items-center justify-between">
         <nav aria-label="Primary navigation" className="flex items-center gap-5 text-sm font-medium text-zinc-400 sm:gap-7">
           <a className="transition-colors hover:text-zinc-100" href="#hero">Home</a>
