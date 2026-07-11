@@ -8,14 +8,14 @@ import Contact from "@/components/sections/Contact";
 
 export default function HomePage() {
   return (
-    <>
+    <main className="min-h-screen bg-[#0e0e0e] text-zinc-100">
       <Hero />
+      <Experience />
+      <Projects />
       <About />
       <Skills />
-      <Projects />
-      <Experience />
       <Certifications />
       <Contact />
-    </>
+    </main>
   );
 }

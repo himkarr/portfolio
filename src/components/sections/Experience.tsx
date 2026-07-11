@@ -2,21 +2,21 @@ import { experiences } from "@/config/experience";
 
 export default function Experience() {
   return (
-    <section id="experience" className="border-y bg-muted/30">
-      <div className="mx-auto max-w-5xl px-6 py-20 sm:py-28">
-        <p className="text-sm font-medium text-muted-foreground">Background</p>
-        <h2 className="mt-2 text-3xl font-semibold tracking-tight sm:text-4xl">Experience</h2>
-        <div className="mt-10 space-y-4">
+    <section id="experience" className="mx-auto max-w-4xl px-6 py-16 sm:px-10 sm:py-20">
+      <div>
+        <h2 className="text-2xl font-semibold tracking-tight">Experience</h2>
+        <div className="mt-7 space-y-7">
           {experiences.map((experience) => (
-            <article key={experience.role} className="rounded-xl border bg-card p-6">
-              <div className="flex flex-col justify-between gap-2 sm:flex-row">
-                <div><h3 className="font-medium">{experience.role}</h3><p className="text-sm text-muted-foreground">{experience.organization}</p></div>
-                <p className="text-sm text-muted-foreground">{experience.period} · {experience.location}</p>
+            <article key={experience.role} className="grid gap-3 sm:grid-cols-[1fr_auto] sm:gap-8">
+              <div>
+                <h3 className="font-semibold">{experience.role}</h3>
+                <p className="mt-1 text-zinc-400">{experience.organization}</p>
+                <p className="mt-3 max-w-xl text-sm leading-6 text-zinc-500">{experience.description}</p>
+                <div className="mt-3 flex flex-wrap gap-x-3 gap-y-1 text-xs text-zinc-500">
+                  {experience.technologies.map((technology) => <span key={technology}>{technology}</span>)}
+                </div>
               </div>
-              <p className="mt-5 leading-7 text-muted-foreground">{experience.description}</p>
-              <div className="mt-5 flex flex-wrap gap-2">
-                {experience.technologies.map((technology) => <span key={technology} className="rounded-full border px-3 py-1 text-xs">{technology}</span>)}
-              </div>
+              <p className="text-sm leading-6 text-zinc-400 sm:text-right">{experience.period}<br />{experience.location}</p>
             </article>
           ))}
         </div>
