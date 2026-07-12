@@ -5,7 +5,7 @@ export interface NavItem {
 
 export const navbarConfig = {
   logo: {
-    src: '/assets/logo.png',
+    src: '/assets/logo.avif',
     alt: 'logo',
     width: 100,
     height: 100,
@@ -13,7 +13,7 @@ export const navbarConfig = {
   navItems: [
     {
       label: 'Home',
-      href: '/home',
+      href: '/',
     },
     {
       label: 'Work',

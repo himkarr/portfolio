@@ -1,4 +1,5 @@
 export const footerConfig = {
-  developer: 'Himanshu',
-  copyright: 'All rights reserved.',
+  text: "Designed & built by",
+  developer: "Himanshu",
+  copyright: "All rights reserved.",
 };

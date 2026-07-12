@@ -3,6 +3,11 @@ import "./globals.css";
 import {cn} from "@/lib/utils";
 import {geistMono, geistSans} from "@/lib/fonts";
 import {metadata} from "@/config/metadata";
+import {ThemeProvider} from "@/components/common/ThemeProviders";
+import Navbar from "@/components/common/Navbar";
+import Footer from "@/components/common/Footer";
+import BackToTop from "@/components/common/BackToTop";
+import UmamiAnalytics from "@/components/analytics/UmamiAnalytics";
 
 const inter = Inter({subsets: ["latin"], variable: "--font-sans"});
 
@@ -16,6 +21,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
+      suppressHydrationWarning
       className={cn(
         "h-full",
         "antialiased",
@@ -25,7 +31,15 @@ export default function RootLayout({
         inter.variable,
       )}
     >
-      <body className="min-h-full flex flex-col">{children}</body>
+      <body className="min-h-full flex flex-col">
+        <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
+          <Navbar />
+          <main className="flex-1">{children}</main>
+          <Footer />
+          <BackToTop />
+        </ThemeProvider>
+        <UmamiAnalytics />
+      </body>
     </html>
   );
 }

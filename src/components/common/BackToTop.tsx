@@ -1,43 +1,39 @@
-'use client';
+"use client";
 
-import { useHapticFeedback } from '@/hooks/use-haptic-feedback';
-import { ArrowUp } from 'lucide-react';
-import React from 'react';
+import {useHapticFeedback} from "@/hooks/use-haptic-feedback";
+import {useUmami} from "@/hooks/use-umami";
+import {ArrowUp} from "lucide-react";
+import React from "react";
 
-import { Button } from '../ui/button';
-import { Tooltip, TooltipContent, TooltipTrigger } from '../ui/tooltip';
+import {Button} from "../ui/button";
 
 export default function BackToTop() {
-  const { triggerHaptic, isMobile } = useHapticFeedback();
+  const {triggerHaptic, isMobile} = useHapticFeedback();
+  const {trackEvent} = useUmami();
 
   const handleClick = () => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    window.scrollTo({top: 0, behavior: "smooth"});
 
-    // Trigger haptic feedback on mobile devices
+    trackEvent({
+      name: "button_click",
+      data: {buttonId: "back_to_top", section: "global"},
+    });
+
     if (isMobile()) {
-      triggerHaptic('light');
+      triggerHaptic("light");
     }
   };
 
   return (
-    <Tooltip delayDuration={0}>
-      <TooltipTrigger asChild>
-        <Button
-          variant="outline"
-          size="icon"
-          className="fixed right-10 bottom-4 z-50 bg-white hover:cursor-pointer md:right-20 dark:bg-black"
-          onClick={handleClick}
-          track={{
-            name: 'button_click',
-            data: { buttonId: 'back_to_top', section: 'global' },
-          }}
-        >
-          <ArrowUp className="size-4" />
-        </Button>
-      </TooltipTrigger>
-      <TooltipContent>
-        <p>Back to top</p>
-      </TooltipContent>
-    </Tooltip>
+    <Button
+      variant="outline"
+      size="icon"
+      className="fixed right-6 bottom-6 z-50 bg-background md:right-10"
+      onClick={handleClick}
+      aria-label="Back to top"
+      title="Back to top"
+    >
+      <ArrowUp className="size-4" />
+    </Button>
   );
 }
