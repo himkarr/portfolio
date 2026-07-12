@@ -1,6 +1,6 @@
 export const siteConfig = {
   // Basic Information
-  name: "Himkar",
+  name: "Himanshu",
   fullName: "Himanshu Kaushik",
   username: "himkar",
 
@@ -12,12 +12,12 @@ export const siteConfig = {
     "Building secure applications, AI-powered security tools, and modern web experiences.",
 
   longDescription:
-    "I'm Himkar, a Computer Science student focused on Application Security, AI, and Full Stack Development. I enjoy building secure software, exploring modern technologies, and sharing my learning journey.",
+    "I'm Himanshu Kaushik, Application Security Engineer, AI, and Full Stack Development. I enjoy building secure software, exploring modern technologies, and sharing my learning journey.",
 
   // Website
   url: "http://localhost:3000", // change after buying domain
 
-  ogImage: "/images/meta/og.png",
+  ogImage: "/meta/og.png",
 
   // Contact
   email: "himkarsingh@proton.me",

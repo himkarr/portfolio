@@ -9,12 +9,12 @@ export interface Experience {
 
 export const experiences = [
   {
-    role: "Computer Science Student",
+    role: "Vulnerability Researcher",
     organization: "Independent Learning & Projects",
     period: "Present",
     location: "India",
     description:
-      "Developing a foundation in application security, AI, and full-stack engineering through focused study and hands-on projects.",
-    technologies: ["Application Security", "AI", "Next.js"],
+      "Finding and learning about vulnerabilities in various applications, understanding their impact, and exploring mitigation techniques.",
+    technologies: ["Application Security", "AI", "Python"],
   },
 ] as const satisfies readonly Experience[];
