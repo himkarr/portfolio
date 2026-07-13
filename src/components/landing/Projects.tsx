@@ -11,7 +11,7 @@ export default function Projects() {
   return (
     <section id="projects">
       <p className="text-sm font-medium text-muted-foreground">Selected work</p>
-      <h2 className="mt-2 text-3xl font-semibold tracking-tight sm:text-4xl">
+      <h2 className="mt-2 text-2xl font-semibold tracking-tight">
         Projects
       </h2>
       <div className="mt-10 grid gap-4 md:grid-cols-3">

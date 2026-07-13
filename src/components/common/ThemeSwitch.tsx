@@ -43,9 +43,6 @@ export const useThemeToggle = ({
     styleElement.textContent = css;
   }, []);
 
-  const lastToggleAtRef = useRef(0);
-  const RAPID_CLICK_MS = 350;
-
   // Tracks the currently-playing view transition (if any), so a second click
   // that lands mid-animation can be detected and handled explicitly, instead
   // of guessing from click timing.
