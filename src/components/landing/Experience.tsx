@@ -12,7 +12,7 @@ export default function Experience() {
     <section id="experience">
       <div>
         <h2 className="text-2xl font-semibold tracking-tight">Experience</h2>
-        <div className="mt-7 space-y-7">
+        <div className="mt-6 space-y-6">
           {preview.map((experience) => (
             <ExperienceItem key={experience.role} experience={experience} />
           ))}
