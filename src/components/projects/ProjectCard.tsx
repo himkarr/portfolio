@@ -1,32 +1,53 @@
+import Image from "next/image";
+import { ArrowUpRight } from "lucide-react";
+
 import { Project } from "@/config/projects";
 
 export default function ProjectCard({ project }: { project: Project }) {
   const content = (
     <>
-      <h3 className="text-lg font-medium">{project.title}</h3>
-      <p className="mt-3 text-sm leading-6 text-muted-foreground">
+      {project.image && (
+        <div className="relative aspect-video overflow-hidden rounded-lg border bg-muted">
+          <Image
+            src={project.image}
+            alt={project.title}
+            fill
+            className="object-cover transition-transform duration-300 group-hover:scale-105"
+          />
+        </div>
+      )}
+
+      <div className="flex items-start justify-between gap-2 pt-4">
+        <h3 className="text-lg font-medium">{project.title}</h3>
+        {project.href && (
+          <ArrowUpRight className="mt-1 size-4 shrink-0 text-muted-foreground transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-foreground" />
+        )}
+      </div>
+
+      <p className="mt-2 text-sm leading-6 text-muted-foreground">
         {project.description}
       </p>
-      <div className="mt-auto flex flex-wrap gap-2 pt-6">
+
+      <ul className="mt-auto flex flex-wrap gap-1.5 pt-6">
         {project.technologies.map((technology) => (
-          <span
+          <li
             key={technology}
-            className="rounded-md bg-muted px-2 py-1 text-xs text-muted-foreground"
+            className="rounded-md border bg-muted/50 px-1.5 py-0.5 font-mono text-xs text-muted-foreground"
           >
             {technology}
-          </span>
+          </li>
         ))}
-      </div>
+      </ul>
     </>
   );
 
   if (project.href) {
     return (
-        <a
+      <a
         href={project.href}
         target="_blank"
         rel="noreferrer"
-        className="flex min-h-60 flex-col rounded-xl border p-5 transition-colors hover:bg-muted/40"
+        className="group flex min-h-60 flex-col rounded-xl border p-4 transition-colors hover:border-foreground/20 hover:bg-muted/40"
       >
         {content}
       </a>
@@ -34,7 +55,7 @@ export default function ProjectCard({ project }: { project: Project }) {
   }
 
   return (
-    <article className="flex min-h-60 flex-col rounded-xl border p-5">
+    <article className="group flex min-h-60 flex-col rounded-xl border p-4">
       {content}
     </article>
   );

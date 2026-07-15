@@ -3,6 +3,7 @@ export interface Project {
   description: string;
   technologies: readonly string[];
   href?: string;
+  image?: string;
 }
 
 export const projects = [
