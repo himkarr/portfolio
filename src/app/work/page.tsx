@@ -20,7 +20,7 @@ export default function WorkPage() {
         Roles, research, and projects I&apos;ve worked on.
       </p>
 
-      <div className="mt-10 space-y-7">
+      <div className="mt-8 space-y-6">
         {experiences.map((experience) => (
           <ExperienceItem key={experience.role} experience={experience} />
         ))}
