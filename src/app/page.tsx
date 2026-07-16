@@ -3,7 +3,7 @@ import Hero from "@/components/landing/Hero";
 import About from "@/components/landing/About";
 import Projects from "@/components/landing/Projects";
 import Experience from "@/components/landing/Experience";
-import Certifications from "@/components/landing/Certifications";
+// import Certifications from "@/components/landing/Certifications";
 import Contact from "@/components/landing/Contact";
 
 export default function HomePage() {
@@ -14,7 +14,7 @@ export default function HomePage() {
         <Projects />
         <Experience />
         <About />
-        <Certifications />
+        {/* <Certifications /> */}
         <Contact />
       </div>
     </Container>
