@@ -38,6 +38,10 @@ export default function RootLayout({
           <Footer />
           <BackToTop />
         </ThemeProvider>
+        <div
+          aria-hidden
+          className="pointer-events-none fixed inset-x-0 bottom-0 z-30 h-10 bg-gradient-to-t from-background via-background/70 to-transparent backdrop-blur-sm"
+        />
         <UmamiAnalytics />
       </body>
     </html>
