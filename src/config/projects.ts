@@ -20,6 +20,7 @@ export const projects = [
       "PostgreSQL",
       "AI",
     ],
+    image: "/project/crackrank.png",
     githubUrl: "https://github.com/himkarr/beacon",
     liveUrl: "https://beacon.example.com",
   },
@@ -60,6 +61,7 @@ export const projects = [
     description:
       "A privacy-first real-time chat application focused on anonymous communication, secure messaging, and a clean user experience.",
     technologies: ["React", "Node.js", "Express", "WebSockets", "PostgreSQL"],
+    image: "/project/crackchat.png",
     githubUrl: "https://github.com/your-username/anonymous-chat",
     liveUrl: "https://anonymous-chat.example.com",
   },

@@ -20,7 +20,7 @@ export default function ProjectsPage() {
         full-stack apps.
       </p>
 
-      <div className="mt-7 grid gap-4 md:grid-cols-3">
+      <div className="mt-7 grid gap-4 md:grid-cols-2">
         {projects.map((project) => (
           <ProjectCard key={project.title} project={project} />
         ))}
