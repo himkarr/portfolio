@@ -14,7 +14,7 @@ export default function ProjectCard({ project }: { project: Project }) {
             alt={`${project.title} project preview`}
             fill
             sizes="(max-width: 768px) 100vw, 33vw"
-            className="object-cover transition-transform duration-300 group-hover:scale-105"
+            className="object-cover grayscale transition-[filter] duration-300 ease-[cubic-bezier(0.42,0,0.58,1)] group-hover:grayscale-0"
           />
         </div>
       )}

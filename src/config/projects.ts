@@ -20,7 +20,7 @@ export const projects = [
       "PostgreSQL",
       "AI",
     ],
-    githubUrl: "https://github.com/your-username/beacon",
+    githubUrl: "https://github.com/himkarr/beacon",
     liveUrl: "https://beacon.example.com",
   },
   {
@@ -37,7 +37,7 @@ export const projects = [
     ],
     image: "/project/crackrank.png",
     githubUrl: "https://github.com/himkarr/crackrank-0",
-    liveUrl: "https://crackrank.vercel.capp",
+    liveUrl: "https://crackrank.vercel.app",
   },
   {
     title: "RasterCam",
