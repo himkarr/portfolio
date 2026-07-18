@@ -1,82 +1,278 @@
 "use client";
 
-import {useState} from "react";
-import {Briefcase, ChevronDown} from "lucide-react";
+import {useCallback, useRef, type ComponentProps} from "react";
+import {differenceInMonths, parse} from "date-fns";
+import ReactMarkdown from "react-markdown";
+import {Briefcase, Infinity as InfinityIcon} from "lucide-react";
 
 import {cn} from "@/lib/utils";
-import {Experience} from "@/config/experience";
+import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from "@/components/ui/collapsible";
+import {Separator} from "@/components/ui/separator";
+import type {ChevronsUpDownIconHandle} from "./chevrons-up-down-icon";
+import {ChevronsUpDownIcon} from "./chevrons-up-down-icon";
+import type {
+  ExperienceItemType,
+  ExperiencePositionItemType,
+} from "@/config/experience";
 
-export default function ExperienceItem({experience}: {experience: Experience}) {
-  const [open, setOpen] = useState(false);
-  const isCurrent = experience.period.toLowerCase().includes("present");
-
+export function WorkExperience({
+  experiences,
+}: {
+  experiences: ExperienceItemType[];
+}) {
   return (
-    <div className="relative pl-9">
-      <span
-        aria-hidden
-        className="absolute top-7 bottom-0 left-3 w-px bg-border"
-      />
+    <div className="text-foreground">
+      {experiences.map((experience) => (
+        <ExperienceCompany key={experience.id} experience={experience} />
+      ))}
+    </div>
+  );
+}
 
-      <div className="absolute top-0 left-0 flex size-6 items-center justify-center rounded-lg border border-muted-foreground/15 bg-muted text-muted-foreground">
-        <Briefcase className="size-3.5" />
-      </div>
-
-      <button
-        type="button"
-        onClick={() => setOpen((v) => !v)}
-        className="flex w-full items-start gap-2 text-left"
-        aria-expanded={open}
-      >
-        <div className="flex-1">
-          <div className="flex flex-wrap items-center gap-2">
-            <h3 className="font-semibold">{experience.role}</h3>
-            {isCurrent && (
-              <span className="relative flex size-2" aria-label="Current role">
-                <span className="absolute inline-flex size-2 animate-ping rounded-full bg-sky-500 opacity-60" />
-                <span className="relative inline-flex size-2 rounded-full bg-sky-500" />
-              </span>
-            )}
-          </div>
-          <p className="mt-0.5 text-sm text-muted-foreground">
-            {experience.organization}
-          </p>
-          <p className="mt-1 text-xs text-muted-foreground">
-            {experience.period} · {experience.location}
-          </p>
+function ExperienceCompany({experience}: {experience: ExperienceItemType}) {
+  return (
+    <div className="space-y-4 py-4 first:pt-0 last:pb-0">
+      <div className="not-prose flex items-center gap-3">
+        <div className="flex size-6 shrink-0 items-center justify-center">
+          {experience.companyLogo ? (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img
+              src={experience.companyLogo}
+              alt={experience.companyName}
+              className="size-6 rounded-full"
+              aria-hidden
+            />
+          ) : (
+            <span className="flex size-2 rounded-full bg-zinc-300 dark:bg-zinc-600" />
+          )}
         </div>
 
-        <ChevronDown
-          className={cn(
-            "mt-1 size-4 shrink-0 text-muted-foreground transition-transform duration-200",
-            open && "rotate-180",
+        <h3 className="text-lg leading-snug font-semibold">
+          {experience.companyWebsite ? (
+            <a
+              className="underline-offset-4 hover:underline"
+              href={experience.companyWebsite}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              {experience.companyName}
+            </a>
+          ) : (
+            experience.companyName
           )}
-        />
-      </button>
+        </h3>
 
-      <div
-        className={cn(
-          "grid overflow-hidden transition-all duration-200 ease-out",
-          open
-            ? "mt-3 grid-rows-[1fr] opacity-100"
-            : "grid-rows-[0fr] opacity-0",
+        {experience.isCurrentEmployer && (
+          <span
+            className="relative flex items-center justify-center"
+            aria-label="Current Employer"
+          >
+            <span className="absolute inline-flex size-3 animate-ping rounded-full bg-sky-500 opacity-50" />
+            <span className="relative inline-flex size-2 rounded-full bg-sky-500" />
+          </span>
         )}
-      >
-        <div className="min-h-0">
-          <p className="max-w-xl text-sm leading-6 text-muted-foreground">
-            {experience.description}
-          </p>
-          <ul className="mt-3 flex flex-wrap gap-1.5">
-            {experience.technologies.map((technology) => (
-              <li
-                key={technology}
-                className="rounded-md border bg-muted/50 px-1.5 py-0.5 font-mono text-xs text-muted-foreground"
-              >
-                {technology}
+      </div>
+
+      <div className="relative space-y-4 before:absolute before:left-3 before:h-full before:w-px before:bg-border">
+        {experience.positions.map((position) => (
+          <ExperiencePosition key={position.id} position={position} />
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function ExperiencePosition({
+  position,
+}: {
+  position: ExperiencePositionItemType;
+}) {
+  const chevronsUpDownIconRef = useRef<ChevronsUpDownIconHandle>(null);
+
+  const handleOpenChange = useCallback((open: boolean) => {
+    const controls = chevronsUpDownIconRef.current;
+    if (!controls) return;
+
+    if (open) {
+      controls.startAnimation();
+    } else {
+      controls.stopAnimation();
+    }
+  }, []);
+
+  const {start, end} = position.employmentPeriod;
+  const isOngoing = !end;
+  const duration = formatDuration(start, end);
+
+  return (
+    <Collapsible
+      defaultOpen={position.isExpanded}
+      onOpenChange={handleOpenChange}
+      disabled={!position.description}
+    >
+      <div className="relative last:before:absolute last:before:h-full last:before:w-4 last:before:bg-background">
+        <CollapsibleTrigger
+          className={cn(
+            "group/experience-position not-prose block w-full text-left select-none",
+            "relative before:absolute before:-top-1 before:-right-1 before:-bottom-1.5 before:left-7 before:rounded-lg hover:before:bg-muted/30",
+            "data-disabled:before:content-none",
+          )}
+        >
+          <div className="relative z-1 mb-1 flex items-start gap-3 text-base">
+            <div
+              className={cn(
+                "flex size-6 shrink-0 items-center justify-center rounded-lg",
+                "bg-muted text-muted-foreground",
+                "border border-muted-foreground/15",
+              )}
+            >
+              <Briefcase className="size-4 shrink-0" />
+            </div>
+
+            <h4 className="flex-1 font-medium text-balance text-foreground">
+              {position.title}
+            </h4>
+
+            <div className="shrink-0 text-muted-foreground group-disabled/experience-position:hidden [&_svg]:h-lh [&_svg]:w-4">
+              <ChevronsUpDownIcon ref={chevronsUpDownIconRef} duration={0.15} />
+            </div>
+          </div>
+
+          <dl className="relative z-1 flex flex-wrap items-center gap-x-2 gap-y-1 pl-9 text-sm text-muted-foreground">
+            {position.employmentType && (
+              <>
+                <div>
+                  <dt className="sr-only">Employment Type</dt>
+                  <dd>{position.employmentType}</dd>
+                </div>
+                <Separator className="h-4 self-center" orientation="vertical" />
+              </>
+            )}
+
+            {position.location && (
+              <>
+                <div>
+                  <dt className="sr-only">Location</dt>
+                  <dd>{position.location}</dd>
+                </div>
+                <Separator className="h-4 self-center" orientation="vertical" />
+              </>
+            )}
+
+            <div>
+              <dt className="sr-only">Employment Period</dt>
+              <dd className="flex items-center gap-0.5 tabular-nums">
+                <span>{start}</span>
+                <span className="font-mono">—</span>
+                {isOngoing ? (
+                  <InfinityIcon
+                    className="size-4.5 translate-y-[0.5px]"
+                    aria-label="Present"
+                  />
+                ) : (
+                  <span>{end}</span>
+                )}
+              </dd>
+            </div>
+
+            {duration && (
+              <>
+                <Separator className="h-4 self-center" orientation="vertical" />
+                <div>
+                  <dt className="sr-only">Duration</dt>
+                  <dd className="tabular-nums">{duration}</dd>
+                </div>
+              </>
+            )}
+          </dl>
+        </CollapsibleTrigger>
+
+        <CollapsibleContent className="overflow-hidden">
+          {position.description && (
+            <Prose className="pt-2 pl-9">
+              <ReactMarkdown>{position.description}</ReactMarkdown>
+            </Prose>
+          )}
+        </CollapsibleContent>
+
+        {Array.isArray(position.skills) && position.skills.length > 0 && (
+          <ul className="not-prose flex flex-wrap gap-1.5 pt-3 pl-9">
+            {position.skills.map((skill, index) => (
+              <li key={index} className="flex">
+                <Skill>{skill}</Skill>
               </li>
             ))}
           </ul>
-        </div>
+        )}
       </div>
-    </div>
+    </Collapsible>
+  );
+}
+
+function Prose({className, ...props}: ComponentProps<"div">) {
+  return (
+    <div
+      className={cn("prose prose-zinc max-w-none dark:prose-invert", className)}
+      {...props}
+    />
+  );
+}
+
+function Skill({className, ...props}: ComponentProps<"span">) {
+  return (
+    <span
+      className={cn(
+        "inline-flex items-center rounded-md border bg-muted/50 px-1.5 py-0.5 font-mono text-xs text-muted-foreground",
+        className,
+      )}
+      {...props}
+    />
+  );
+}
+
+function formatDuration(start: string, end?: string): string {
+  const startHasMonth = start.includes(".");
+  const endHasMonth = end ? end.includes(".") : true;
+
+  if (!startHasMonth && end && !endHasMonth) {
+    const years = parseInt(end, 10) - parseInt(start, 10);
+    if (years <= 0) {
+      return "";
+    }
+    return `${years}y`;
+  }
+
+  const startDate = parsePeriodDate(start, "first");
+  const endDate = end ? parsePeriodDate(end, "last") : new Date();
+
+  const totalMonths = differenceInMonths(endDate, startDate) + 1;
+  if (totalMonths <= 0) {
+    return "";
+  }
+
+  if (totalMonths < 12) {
+    return `${totalMonths}m`;
+  }
+
+  const years = Math.floor(totalMonths / 12);
+  const months = totalMonths % 12;
+  if (months === 0) {
+    return `${years}y`;
+  }
+  return `${years}y ${months}m`;
+}
+
+function parsePeriodDate(str: string, fallbackMonth: "first" | "last"): Date {
+  if (str.includes(".")) {
+    return parse(str, "MM.yyyy", new Date());
+  }
+  return parse(
+    `${fallbackMonth === "last" ? "12" : "01"}.${str}`,
+    "MM.yyyy",
+    new Date(),
   );
 }

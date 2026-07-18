@@ -1,20 +1,40 @@
-export interface Experience {
-  role: string;
-  organization: string;
-  period: string;
-  location: string;
-  description: string;
-  technologies: readonly string[];
-}
+export type ExperiencePositionItemType = {
+  id: string;
+  title: string;
+  employmentPeriod: {start: string; end?: string};
+  employmentType?: string;
+  /** Not part of chanhdai's original model — added since it's useful info */
+  location?: string;
+  description?: string;
+  skills?: string[];
+  isExpanded?: boolean;
+};
 
-export const experiences = [
+export type ExperienceItemType = {
+  id: string;
+  companyName: string;
+  companyLogo?: string;
+  companyWebsite?: string;
+  positions: ExperiencePositionItemType[];
+  isCurrentEmployer?: boolean;
+};
+
+export const experiences: ExperienceItemType[] = [
   {
-    role: "Vulnerability Researcher",
-    organization: "Independent Learning & Projects",
-    period: "Present",
-    location: "India",
-    description:
-      "Finding and learning about vulnerabilities in various applications, understanding their impact, and exploring mitigation techniques.",
-    technologies: ["Application Security", "AI", "Python"],
+    id: "independent-learning",
+    companyName: "Independent Learning & Projects",
+    isCurrentEmployer: true,
+    positions: [
+      {
+        id: "vulnerability-researcher",
+        title: "Vulnerability Researcher",
+        // TODO: set your actual start — using year-only as a placeholder
+        employmentPeriod: {start: "2025"},
+        location: "India",
+        description:
+          "Finding and learning about vulnerabilities in various applications, understanding their impact, and exploring mitigation techniques.",
+        skills: ["Application Security", "AI", "Python"],
+      },
+    ],
   },
-] as const satisfies readonly Experience[];
+];
