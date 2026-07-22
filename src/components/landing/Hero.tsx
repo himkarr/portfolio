@@ -5,6 +5,7 @@ import Github from "@/components/svgs/Github";
 import LinkedIn from "@/components/svgs/LinkedIn";
 import Mail from "@/components/svgs/Mail";
 import X from "@/components/svgs/X";
+import ScrambledIP from "@/components/common/ScrambledIP";
 
 export default function Hero() {
   return (
@@ -26,12 +27,7 @@ export default function Hero() {
           <p className="mt-1 text-muted-foreground">
             {siteConfig.title} · {siteConfig.subtitle}
           </p>
-          <a
-            className="mt-1 inline-block text-sm text-muted-foreground transition-colors hover:text-foreground"
-            href={`mailto:${siteConfig.email}`}
-          >
-            {siteConfig.email}
-          </a>
+          <ScrambledIP />
         </div>
       </div>
 
@@ -83,6 +79,7 @@ export default function Hero() {
             <Mail />
           </span>
         </a>
+
       </div>
     </section>
   );
