@@ -20,7 +20,7 @@ export const projects = [
       "PostgreSQL",
       "AI",
     ],
-    image: "/project/crackrank.png",
+    image: "/project/beacon.png",
     githubUrl: "https://github.com/himkarr/beacon",
     liveUrl: "https://beacon.example.com",
   },
