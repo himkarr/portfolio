@@ -8,6 +8,7 @@ import Navbar from "@/components/common/Navbar";
 import Footer from "@/components/common/Footer";
 import BackToTop from "@/components/common/BackToTop";
 import UmamiAnalytics from "@/components/analytics/UmamiAnalytics";
+import {TooltipProvider} from "@/components/ui/tooltip";
 
 const inter = Inter({subsets: ["latin"], variable: "--font-sans"});
 
@@ -33,10 +34,12 @@ export default function RootLayout({
     >
       <body className="min-h-full flex flex-col">
         <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
-          <Navbar />
-          <main className="flex-1">{children}</main>
-          <Footer />
-          <BackToTop />
+          <TooltipProvider>
+            <Navbar />
+            <main className="flex-1">{children}</main>
+            <Footer />
+            <BackToTop />
+          </TooltipProvider>
         </ThemeProvider>
         <div
           aria-hidden

@@ -148,7 +148,6 @@
 /* Page fade-in animation with blur — replays on every page visit/navigation
    since it's applied to Container, which each page mounts fresh. */
 
-
    /* @keyframes fadeInBlur {
   0% {
     opacity: 0.2;
@@ -198,4 +197,8 @@
 /* Apply to main container or sections */
 .container {
   @apply vertical-line-left vertical-line-right;
+}
+
+@utility link-underline {
+    @apply underline decoration-current/30 decoration-1 underline-offset-3 transition-colors hover:decoration-current;
 }
