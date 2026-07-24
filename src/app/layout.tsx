@@ -7,6 +7,7 @@ import {ThemeProvider} from "@/components/common/ThemeProviders";
 import Navbar from "@/components/common/Navbar";
 import Footer from "@/components/common/Footer";
 import BackToTop from "@/components/common/BackToTop";
+import {Analytics} from "@vercel/analytics/next";
 import UmamiAnalytics from "@/components/analytics/UmamiAnalytics";
 import {TooltipProvider} from "@/components/ui/tooltip";
 
@@ -46,6 +47,7 @@ export default function RootLayout({
           className="pointer-events-none fixed inset-x-0 bottom-0 z-30 h-10 bg-gradient-to-t from-background via-background/70 to-transparent backdrop-blur-sm"
         />
         <UmamiAnalytics />
+        <Analytics />
       </body>
     </html>
   );
