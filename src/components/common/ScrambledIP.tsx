@@ -17,6 +17,16 @@ interface IpInfo {
   org: string;
 }
 
+interface IpWhoIsResponse {
+  success: boolean;
+  ip: string;
+  city: string;
+  country_code: string;
+  connection?: {
+    isp?: string;
+  };
+}
+
 export default function ScrambledIP() {
   const [text, setText] = useState("New Delhi, IN");
   const [info, setInfo] = useState<IpInfo | null>(null);
@@ -25,28 +35,28 @@ export default function ScrambledIP() {
   const intervalRef = useRef<ReturnType<typeof setInterval> | undefined>(undefined);
 
   useEffect(() => {
-    fetch("http://ip-api.com/json/")
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.status === "success") {
-          const ip = data.query;
-          const isV6 = ip.includes(":");
+    const controller = new AbortController();
 
-          if (isV6) {
-            fetch("https://api.ipify.org?format=json")
-              .then((r) => r.json())
-              .then((d) => {
-                setInfo({ip: `${ip} / ${d.ip}`, region: data.city, country: data.country, org: data.isp});
-              })
-              .catch(() => {
-                setInfo({ip, region: data.city, country: data.country, org: data.isp});
-              });
-          } else {
-            setInfo({ip, region: data.city, country: data.country, org: data.isp});
-          }
-        }
+    fetch("https://ipwho.is/", {signal: controller.signal})
+      .then((res) => {
+        if (!res.ok) throw new Error("Unable to look up IP address");
+        return res.json() as Promise<IpWhoIsResponse>;
       })
-      .catch(() => {});
+      .then((data) => {
+        if (!data.success) return;
+
+        setInfo({
+          ip: data.ip,
+          region: data.city,
+          country: data.country_code,
+          org: data.connection?.isp ?? "Unknown",
+        });
+      })
+      .catch((error: unknown) => {
+        if (error instanceof DOMException && error.name === "AbortError") return;
+      });
+
+    return () => controller.abort();
   }, []);
 
   useEffect(() => {
@@ -78,10 +88,10 @@ export default function ScrambledIP() {
       }, 50);
 
       return () => clearInterval(intervalRef.current);
-    } else {
-      setText("New Delhi, IN");
     }
   }, [isHovered, info]);
+
+  const displayText = isHovered ? text : "New Delhi, IN";
 
   return (
     <TooltipProvider>
@@ -91,7 +101,7 @@ export default function ScrambledIP() {
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
       >
-        {text}
+        {displayText}
       </TooltipTrigger>
       <TooltipContent
         side="bottom"
