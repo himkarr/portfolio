@@ -6,8 +6,9 @@ import {experiences} from "@/config/experience";
 import {siteConfig} from "@/config/site";
 
 export const metadata: Metadata = {
-  title: `Work Experience | ${siteConfig.fullName}`,
+  title: "Work Experience",
   description: `${siteConfig.fullName}'s work experience, in one place.`,
+  alternates: {canonical: "/work"},
 };
 
 export default function WorkPage() {

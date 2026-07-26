@@ -6,8 +6,9 @@ import { Metadata } from 'next';
 import React from 'react';
 
 export const metadata: Metadata = {
-  title: `Resume | ${siteConfig.fullName}`,
+  title: "Resume",
   description: `View and download ${siteConfig.fullName}'s resume.`,
+  alternates: {canonical: "/resume"},
 };
 
 export default function ResumePage() {

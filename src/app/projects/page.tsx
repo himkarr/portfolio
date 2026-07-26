@@ -5,8 +5,9 @@ import {projects} from "@/config/projects";
 import {siteConfig} from "@/config/site";
 
 export const metadata: Metadata = {
-  title: `Projects | ${siteConfig.fullName}`,
+  title: "Projects",
   description: `All of ${siteConfig.fullName}'s projects, in one place.`,
+  alternates: {canonical: "/projects"},
 };
 
 export default function ProjectsPage() {
