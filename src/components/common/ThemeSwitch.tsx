@@ -1,6 +1,7 @@
 'use client';
 
 import {useClickSound} from "@/hooks/use-click-sound";
+import {useHapticFeedback} from "@/hooks/use-haptic-feedback";
 import { useUmami } from '@/hooks/use-umami';
 import { cn } from '@/lib/utils';
 import { useTheme } from 'next-themes';
@@ -218,11 +219,13 @@ export const ThemeToggleButton = ({
     gifUrl,
   });
   const playClick = useClickSound();
+  const {triggerHaptic} = useHapticFeedback();
 
   const handleToggle = useCallback(() => {
     playClick();
+    triggerHaptic('light');
     toggleTheme();
-  }, [playClick, toggleTheme]);
+  }, [playClick, toggleTheme, triggerHaptic]);
 
   const handleInstantToggle = useCallback(() => {
     playClick();

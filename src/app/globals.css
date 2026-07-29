@@ -127,6 +127,7 @@
   }
   html {
     @apply font-sans;
+    overflow-x: clip;
   }
   /* Custom thin scrollbar */
   ::-webkit-scrollbar {
@@ -197,6 +198,12 @@
 /* Apply to main container or sections */
 .container {
   @apply vertical-line-left vertical-line-right;
+}
+
+@media (max-width: 767px) {
+  .container::after {
+    right: 0;
+  }
 }
 
 @utility link-underline {

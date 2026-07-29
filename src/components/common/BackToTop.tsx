@@ -13,7 +13,7 @@ import { Button } from '../ui/button';
 const SHOW_AFTER_PX = 400;
 
 export default function BackToTop() {
-  const { triggerHaptic, isMobile } = useHapticFeedback();
+  const { triggerHaptic } = useHapticFeedback();
   const { trackEvent } = useUmami();
   const playClick = useClickSound();
 
@@ -37,9 +37,7 @@ export default function BackToTop() {
       data: { buttonId: 'back_to_top', section: 'global' },
     });
 
-    if (isMobile()) {
-      triggerHaptic('light');
-    }
+    triggerHaptic('light');
   };
 
   return (
